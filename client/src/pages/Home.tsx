@@ -20,13 +20,19 @@ const Form = styled.form`
 `;
 const Input = styled(TextField)`
     && {
-        width: 40%;
+        width: 100%;
+        max-width: 400px;
         margin: 10px;
     }
 `;
 export const SubmitButton = styled(Button)`
     && {
         margin: 10px;
+    }
+`;
+const HomeTitle = styled(Typography)`
+    && {
+        font-size: 1rem;
     }
 `;
 
@@ -72,7 +78,7 @@ function Home(): JSX.Element {
 
     return (
         <HomeContainer>
-            <Typography variant="overline">Say goodbye to long URLs!</Typography>
+            <HomeTitle variant="overline">Say goodbye to long URLs!</HomeTitle>
 
             <Form onSubmit={(e) => handleSubmit(e)}>
                 <Input
