@@ -1,8 +1,11 @@
 import { Box, Button, TextField, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LoadingIndicator from '../components/LoadingIndicator';
+import validURL from '../utils/checkUrl';
 
 const HomeContainer = styled(Box)`
     display: flex;
@@ -34,22 +37,37 @@ function Home(): JSX.Element {
     const [urlOutput, setUrlOutput] = useState('');
     // error
     const [error, setError] = useState('');
+    // loading
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!error) {
+        if (!urlInput) {
             setError('Required');
             return;
         }
 
-        // TODO: isEmail check
+        if (!validURL(urlInput)) {
+            setError('Please enter a valid URL');
+            return;
+        }
 
         // clear error
-        setError('');
+        if (error) {
+            setError('');
+        }
 
-        // TODO: Create shortened URL in BE
-        setUrlOutput('some-shortened-url-here');
+        // create shortened URL
+        try {
+            setLoading(true);
+            const { data } = await axios.post('/api/shorten', { originalUrl: urlInput });
+            setUrlOutput(data.shortUrl);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -68,6 +86,8 @@ function Home(): JSX.Element {
                     Shorten
                 </SubmitButton>
             </Form>
+
+            {loading && <LoadingIndicator title="Attemping to shorten the URL..." />}
 
             {urlOutput && (
                 <Alert severity="success">
