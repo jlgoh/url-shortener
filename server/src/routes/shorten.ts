@@ -34,17 +34,17 @@ module.exports = (app: Express, pool: Pool) => {
 
     // get a shortened url if it exists
     app.get('/api/shorten', (req: Request, res: Response): void => {
-        const { originalUrl } = req.query;
+        const { shortUrl } = req.query;
 
         // if input url is not provided
-        if (!originalUrl) {
+        if (!shortUrl) {
             res.status(400).json({
                 error: 'Query parameter url is required',
             });
             return;
         }
         pool.query(
-            `SELECT * from url WHERE "originalUrl" = '${originalUrl}';`,
+            `SELECT * from url WHERE "shortUrl" = '${shortUrl}';`,
             (error: DatabaseError, results: QueryResult) => {
                 if (error) {
                     throw error;
