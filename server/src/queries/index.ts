@@ -11,11 +11,7 @@ const localDbConfig = {
 
 // prod db config
 const prodDbConfig = {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PW,
-    port: process.env.DB_PORT,
+    connectionString: process.env.DATABASE_URL,
 };
 
 module.exports = new Pool(process.env.NODE_ENV === 'production' ? prodDbConfig : localDbConfig);
