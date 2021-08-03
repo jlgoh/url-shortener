@@ -31,3 +31,7 @@ jobs:
           cd client
           yarn
           yarn test
+      - name: Run linting
+        run: |
+          cd client
+          yarn lint
