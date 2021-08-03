@@ -24,7 +24,7 @@ const Input = styled(TextField)`
         margin: 10px;
     }
 `;
-const SubmitButton = styled(Button)`
+export const SubmitButton = styled(Button)`
     && {
         margin: 10px;
     }
